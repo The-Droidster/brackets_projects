@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <!--
+Copyright (c) 2014 by James Filby (http://codepen.io/DeadcowDesign/pen/yxdeI)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+  <title>CSS3 Only Clock - CodePen</title>
+
+  <style>/* Variables */
+/* Animations */
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* Layout */
+body {
+  background-color: #ed3327;
+  padding: 0;
+  margin: 0;
+  font-family: 'Playball', cursive;
+  color: #fefdfe;
+}
+
+.container {
+  width: 800px;
+  margin: auto;
+}
+
+.clock {
+  width: 300px;
+  height: 300px;
+  display: block;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.clock-body {
+  width: 270px;
+  height: 270px;
+  display: block;
+  position: relative;
+  margin: auto;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+  border-radius: 40px;
+  -webkit-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 10px 10px rgba(255, 255, 255, 0.5), inset 0 -10px 10px rgba(237, 51, 38, 0.3);
+  -moz-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 10px 10px rgba(255, 255, 255, 0.5), inset 0 -10px 10px rgba(237, 51, 38, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 10px 10px rgba(255, 255, 255, 0.5), inset 0 -10px 10px rgba(237, 51, 38, 0.3);
+  background-color: #efd7d5;
+}
+
+.clock-rim-outer {
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 250px;
+  height: 250px;
+  margin: auto;
+  -webkit-border-radius: 125px;
+  -moz-border-radius: 125px;
+  -ms-border-radius: 125px;
+  -o-border-radius: 125px;
+  border-radius: 125px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fefdfe), color-stop(100%, #bd7973));
+  background: -webkit-linear-gradient(top, #fefdfe, #bd7973);
+  background: -moz-linear-gradient(top, #fefdfe, #bd7973);
+  background: -o-linear-gradient(top, #fefdfe, #bd7973);
+  background: linear-gradient(top, #fefdfe, #bd7973);
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  filter: blur(5px);
+  z-index: 1;
+}
+
+.clock-rim-inner {
+  display: block;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 230px;
+  height: 230px;
+  margin: auto;
+  -webkit-border-radius: 115px;
+  -moz-border-radius: 115px;
+  -ms-border-radius: 115px;
+  -o-border-radius: 115px;
+  border-radius: 115px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(5%, #bd7973), color-stop(80%, #fefdfe), color-stop(100%, #bd7973));
+  background: -webkit-linear-gradient(top, #bd7973 5%, #fefdfe 80%, #bd7973);
+  background: -moz-linear-gradient(top, #bd7973 5%, #fefdfe 80%, #bd7973);
+  background: -o-linear-gradient(top, #bd7973 5%, #fefdfe 80%, #bd7973);
+  background: linear-gradient(top, #bd7973 5%, #fefdfe 80%, #bd7973);
+  -webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+  -moz-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+  z-index: 2;
+}
+
+.clock-face {
+  display: block;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  width: 190px;
+  height: 190px;
+  -webkit-border-radius: 95px;
+  -moz-border-radius: 95px;
+  -ms-border-radius: 95px;
+  -o-border-radius: 95px;
+  border-radius: 95px;
+  -webkit-box-shadow: inset 0 10px 50px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: inset 0 10px 50px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 10px 50px rgba(0, 0, 0, 0.7);
+  background-color: #ed3327;
+  z-index: 3;
+}
+
+.clock-hour {
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 50px;
+  top: 85px;
+  left: 127px;
+  -webkit-transform-origin: center bottom;
+  -webkit-animation: spin 43200s linear infinite;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #091a15), color-stop(100%, #25463e));
+  background: -webkit-linear-gradient(bottom, #091a15, #25463e);
+  background: -moz-linear-gradient(bottom, #091a15, #25463e);
+  background: -o-linear-gradient(bottom, #091a15, #25463e);
+  background: linear-gradient(bottom, #091a15, #25463e);
+  background-color: #163931;
+  z-index: 5;
+}
+
+.clock-minute {
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 70px;
+  top: 65px;
+  left: 127px;
+  -webkit-transform-origin: center bottom;
+  -webkit-animation: spin 3600s linear infinite;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #091a15), color-stop(100%, #25463e));
+  background: -webkit-linear-gradient(bottom, #091a15, #25463e);
+  background: -moz-linear-gradient(bottom, #091a15, #25463e);
+  background: -o-linear-gradient(bottom, #091a15, #25463e);
+  background: linear-gradient(bottom, #091a15, #25463e);
+  background-color: #163931;
+  z-index: 4;
+}
+
+.clock-second {
+  display: block;
+  position: absolute;
+  width: 4px;
+  height: 100px;
+  top: 65px;
+  left: 133px;
+  -webkit-transform-origin: center 70px;
+  -webkit-animation: spin 60s linear infinite;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 3px -3px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 3px -3px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 3px -3px 5px rgba(0, 0, 0, 0.4);
+  background: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #fefdfe), color-stop(100%, #bd7973));
+  background: -webkit-linear-gradient(left, #fefdfe, #bd7973);
+  background: -moz-linear-gradient(left, #fefdfe, #bd7973);
+  background: -o-linear-gradient(left, #fefdfe, #bd7973);
+  background: linear-gradient(left, #fefdfe, #bd7973);
+  z-index: 6;
+}
+
+.clock-button-outer {
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 120px;
+  left: 120px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  border-radius: 15px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fefdfe), color-stop(100%, #bd7973));
+  background: -webkit-linear-gradient(top, #fefdfe, #bd7973);
+  background: -moz-linear-gradient(top, #fefdfe, #bd7973);
+  background: -o-linear-gradient(top, #fefdfe, #bd7973);
+  background: linear-gradient(top, #fefdfe, #bd7973);
+  -webkit-box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
+  z-index: 7;
+}
+
+.clock-button-inner {
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 7px;
+  left: 7px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bd7973), color-stop(100%, #fefdfe));
+  background: -webkit-linear-gradient(top, #bd7973, #fefdfe);
+  background: -moz-linear-gradient(top, #bd7973, #fefdfe);
+  background: -o-linear-gradient(top, #bd7973, #fefdfe);
+  background: linear-gradient(top, #bd7973, #fefdfe);
+  z-index: 8;
+}
+
+.linky {
+  display: block;
+  margin: auto;
+  font-size: 2em;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 3px 3px rgba(0, 0, 0, 0.5), 0 -3px 3px rgba(255, 255, 255, 0.8);
+  text-align: center;
+}</style>
+
+  <script>
+    window.open    = function(){};
+    window.print   = function(){};
+    // Support hover state for mobile.
+    if (false) {
+      window.ontouchstart = function(){};
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <div class="container">
+<div class="clock">
+	<div class="clock-body">
+		<div class="clock-rim-outer"></div>
+		<div class="clock-rim-inner"></div>
+		<div class="clock-face"></div>
+		<div class="clock-minute"></div>
+		<div class="clock-hour"></div>
+							<div class="clock-second"></div>
+								<div class="clock-button-outer">
+									<div class="clock-button-inner"></div>
+								</div>
+	</div>
+</div>
+<div class="footer"><a class="linky" href="http://dribbble.com/shots/1268553-Clock" >Inspired by this dribbble shot</a></div>
+
+  <script>
+
+</script>
+
+  <script>
+    if (document.location.search.match(/type=embed/gi)) {
+      window.parent.postMessage('resize', "*");
+    }
+  </script>
+
+</body>
+
+</html>
